@@ -4,21 +4,25 @@ import pandas as pd
 from pyparsing import And
 
 
-data = pd.read_csv('chad.csv' ,error_bad_lines=False)
+data = pd.read_csv('chad.csv' ,skip_blank_lines=False)
 data.loc[:, "Reach"] = data["Reach"].round(-3).map('{:,d}'.format)
+data["State"] = data["State"].fillna(-1)
 state_placements = []
 national_placements = []
 international_placements = []
 
+for i in data["State"]:
+    if i != -1:
+        print(i)
 
-print(data)
+# print(data)
 count = 0
-for i in data: 
+for i in data["State"]: 
     if data['Country'][count] != "United States":
         international_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count],  "url": data["URL"][count], "country": data["Country"][count], "reach": data["Reach"][count]})
-    if data['State'][count] != "Missouri":
+    if data['Country'][count] == "United States" and i != -1:
         national_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "state": data["State"][count], "reach": data["Reach"][count]})
-    else: 
+    if i == "Missouri": 
         state_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "city": data["City"][count], "reach": data["Reach"][count]})
     # if data['Country'][count] == "United States": 
     #     print(data["State"][count])
@@ -47,8 +51,8 @@ for i in state_placements:
 pdf.set_font('Times', 'B', 12)
 pdf.cell(0, 10, "State Radio Placements", 0, 1)
 pdf.set_font('Times', '', 12)
-for i in range(1, 41):
-    pdf.cell(0, 10, '8-3-22 Branson Tri-Lakes News (49,000 potential reach, Hollister, MO) ' + str(i), 0, 1)
+# for i in range(1, 41):
+#     pdf.cell(0, 10, '8-3-22 Branson Tri-Lakes News (49,000 potential reach, Hollister, MO) ' + str(i), 0, 1)
 pdf.set_font('Times', 'B', 12)
 pdf.cell(0, 10, "National Placements", 0, 1)
 pdf.set_font('Times', '', 12)
