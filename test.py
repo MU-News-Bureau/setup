@@ -4,7 +4,7 @@ import pandas as pd
 from pyparsing import And
 
 
-data = pd.read_csv('chad.csv' ,skip_blank_lines=False)
+data = pd.read_csv('emma.csv', encoding="utf8")
 data.loc[:, "Reach"] = data["Reach"].round(-3).map('{:,d}'.format)
 data["State"] = data["State"].fillna(-1)
 state_placements = []
@@ -40,7 +40,7 @@ pdf.set_font('Times', 'B', 12)
 pdf.cell(0, 10, 'News Release: ', 0, 10)
 pdf.set_font('Times', 'U', 12)
 pdf.set_text_color(r = 0, g = 0, b = 255 )
-pdf.cell(0, txt = 'Social exclusion more common form of bullying than physical, verbal aggression', link = 'https://showme.missouri.edu/2022/social-exclusion-more-common-form-of-bullying-than-physical-verbal-aggression/')
+pdf.cell(0, txt = 'Therapy dogs aren’t always the answer to help children with autism', link = 'https://showme.missouri.edu/2022/therapy-dogs-arent-always-the-answer-to-help-children-with-autism/')
 pdf.cell(0,10, '', 0, 1)
 pdf.set_font('Times', 'B', 12)
 pdf.set_text_color(r = 0, g = 0, b = 0 )
@@ -64,5 +64,8 @@ pdf.set_font('Times', '', 12)
 for i in international_placements:
     pdf.cell(0, 10, f'{i["date"]} {i["source"]} ({i["reach"]} potential reach, {i["country"]}) ', 0, 1)
 
+placements = len(international_placements) + len(national_placements) + len(state_placements)
 
-pdf.output('tuto2.pdf', 'F')
+pdf.cell(0, 10, f'Totals: {placements} placements, {placements} potential reach')
+
+pdf.output('tuto.pdf', 'F')
