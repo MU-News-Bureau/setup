@@ -34,3 +34,27 @@
 - After completing installation, confirm you have the latest python3 installed by closing out of GitBash. Reopen GitBash and run the command `python --version`. You should see something like this. 
 
 ![Python 3.10.7](supporting_images/python_version.PNG)
+
+
+### Setting up the Project 
+- If you don't already, request access to the [MU News Bureau Github](https://github.com/MU-News-Bureau). At a minimum, you will need write access to be able to clone, pull, and push to the repositories. 
+
+- Once you have access to the Github organization, you will need to clone the repository. Open up the terminal in VSCode, as shown below.
+
+![VSCode Bottom Left Corner](supporting_images/vscode_page.PNG)
+
+- Click in the area where you can see the 'X" and caution image. Something like the image below should appear.
+
+![VSCode Terminal](supporting_images/vscode_terminal.PNG)
+
+- Click on the text 'Terminal' circled in red above. You should see something on your screen like this. 
+
+![VSCode Terminal Loaded](supporting_images/terminal_loaded.PNG)
+
+- Run the command `git clone ` followed by the URL of the github repository you are trying to download. The response you recieve should look like this. Make sure to navigate to the correct directory where you want this repository. I already had this repo downloaded, which is why it is installed to my user; you will likely not want your repo cloned to this directory.
+
+![VSCode Git Clone](supporting_images/git_clone.PNG)
+
+- Go the directory you cloned the repositiory into using File Explorer. You should see it there, like demonstrated in the image below; the repo is emphasized using red marker.
+
+![Repo in File Explorer](supporting_images/in_file_exp.PNG)
