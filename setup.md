@@ -36,7 +36,7 @@
 ![Python 3.10.7](supporting_images/python_version.PNG)
 
 
-### Setting up the Project 
+## Development
 - If you don't already, request access to the [MU News Bureau Github](https://github.com/MU-News-Bureau). At a minimum, you will need write access to be able to clone, pull, and push to the repositories. 
 
 - Once you have access to the Github organization, you will need to clone the repository. Open up the terminal in VSCode, as shown below.
