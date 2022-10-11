@@ -10,16 +10,19 @@ data["State"] = data["State"].fillna(-1)
 state_placements = []
 national_placements = []
 international_placements = []
-
+reach = 0
 
 count = 0
 for i in data['State']: 
     if data['Country'][count] != "United States":
         international_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count],  "url": data["URL"][count], "country": data["Country"][count], "reach": data["Reach"][count]})
+        reach += int(data["Reach"][count].replace(",", ""))
     if i != "Missouri" and i != -1:
         national_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "state": data["State"][count], "reach": data["Reach"][count]})
+        reach += int(data["Reach"][count].replace(",", ""))
     if i == "Missouri": 
         state_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "city": data["City"][count], "reach": data["Reach"][count]})
+        reach += int(data["Reach"][count].replace(",", ""))
 
     count += 1
 # Instantiation of inherited class
@@ -99,5 +102,7 @@ for i in international_placements:
     else:
         pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach, {i["country"]})', 0, 1 )
 
-
+placements = len(state_placements) + len(national_placements) + len(international_placements)
+spacer()
+pdf.cell(0, 10, f'Totals: {placements} placements, {reach} potential reach')
 pdf.output('tuto2.pdf', 'F')
