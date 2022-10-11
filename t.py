@@ -3,15 +3,20 @@ from fpdf import FPDF
 import pandas as pd
 from pyparsing import And
 
-
+# load csv file, alter data to make processing + displaying easier 
 data = pd.read_csv('emma.csv')
 data.loc[:, "Reach"] = data["Reach"].round(-3).map('{:,d}'.format)
 data["State"] = data["State"].fillna(-1)
+
+# creating spaces for placement seperation, var to hold total potential reach 
 state_placements = []
 national_placements = []
 international_placements = []
 reach = 0
 
+# loop thru entire data set, seperate into international, national, state placements 
+# add each publications info (date, source, url, country, reach) to seperate buckets for later display
+# add each publications reach to the running total
 count = 0
 for i in data['State']: 
     if data['Country'][count] != "United States":
@@ -25,9 +30,8 @@ for i in data['State']:
         reach += int(data["Reach"][count].replace(",", ""))
 
     count += 1
-# Instantiation of inherited class
 
-
+# function for displaying american placements in PDF report
 def american_placements():
     if "https://" in i["url"]:
         pdf.set_text_color(r = 0, g = 0, b = 255)
@@ -39,6 +43,7 @@ def american_placements():
     else:
         pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach)', 0, 1 )
 
+# functions to make styling document simpler
 def times_reg():
     pdf.set_font('Times', '', 12)
 
@@ -57,6 +62,7 @@ def black():
 def spacer():
     pdf.cell(0,10, '', 0, 1)
 
+# creation of PDF report 
 pdf = FPDF()
 pdf.alias_nb_pages()
 pdf.add_page()
@@ -102,6 +108,7 @@ for i in international_placements:
     else:
         pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach, {i["country"]})', 0, 1 )
 
+# calculate total placements, add space, display totals, output PDF report 
 placements = len(state_placements) + len(national_placements) + len(international_placements)
 spacer()
 pdf.cell(0, 10, f'Totals: {placements} placements, {reach} potential reach')
