@@ -3,8 +3,9 @@
 
 <head><title>Test</title> 
     <meta charset=utf-8> </head>
-    <body>
-     <h1>MU New Bureau Report Generator</h1> 
+    <body style = "font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+        <div style = "text-align: center;">
+        <h1>MU New Bureau Report Generator</h1> 
         <form action = "/report-submit/" method = "GET">
             <label for="report_title">Title for PDF Report</label>
             <input type="text" id="report_title" name="report_title"><br><br>
@@ -16,7 +17,8 @@
             <input type="text" id="news_release_date" name="news_release_date"><br><br>
             <input type="file" id="myFile" name="filename">
             <br><br>
-            <input type="submit" action = "/report-submit/" >
+            <input type="submit" action = "/report-submit/" style = "background-color: #F1B82D;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-weight: bolder;font-size: 1.5rem;border-width: .05rem;">
+        </div>
         </form>
 
     </body>
