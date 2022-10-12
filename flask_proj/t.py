@@ -72,10 +72,10 @@ def create_report(file, date, title, url, pdf_title):
     for i in state_placements:
         american_placements()
 
-    times_bold()
-    pdf.cell(0, 10, "State Radio Placements", 0, 1)
-    times_reg()
-    pdf.cell(0, 10, '8-3-22 Branson Tri-Lakes News (49,000 potential reach, Hollister, MO) ', 0, 1)
+    # times_bold()
+    # pdf.cell(0, 10, "State Radio Placements", 0, 1)
+    # times_reg()
+    # pdf.cell(0, 10, '8-3-22 Branson Tri-Lakes News (49,000 potential reach, Hollister, MO) ', 0, 1)
     times_bold()
     pdf.cell(0, 10, "National Placements", 0, 1)
     times_reg()
