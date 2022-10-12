@@ -10,5 +10,19 @@
         </form>
         
         <button> <a href="/my-link/">Click me</a></button>
+        <h1>MU New Bureau Report Generator</h1> 
+        <form action = "/report-submit/" method = "GET">
+            <label for="report_title">Title for PDF Report</label>
+            <input type="text" id="report_title" name="report_title"><br><br>
+            <label for="url">Link to News Release </label>
+            <input type="text" id="url" name="url"><br><br>
+            <label for="news_release_title">Title of News Release </label>
+            <input type="text" id="news_release_title" name="news_release_title"><br><br>
+            <label for="news_release_date">Date of News Release </label>
+            <input type="text" id="news_release_date" name="news_release_date"><br><br>
+            <input type="file" id="myFile" name="filename">
+            <br><br>
+            <input type="submit" action = "/report-submit/" >
+        </form>
 
     </body>
