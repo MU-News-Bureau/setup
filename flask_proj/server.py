@@ -13,8 +13,8 @@ def report_submit():
   release_date = request.args.get("news_release_date")
   pdf_title = request.args.get("report_title")
   release_url = request.args.get("url")
-  recipient_email = request.args.get("recipient_email")
-  create_report(file, release_date, release_name, release_url, pdf_title, recipient_email)
+  # recipient_email = request.args.get("recipient_email")
+  create_report(file, release_date, release_name, release_url, pdf_title)
   print(file, release_name, release_date, pdf_title, release_url)
   return 'Report has been generated.'
 

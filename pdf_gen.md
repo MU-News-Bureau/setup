@@ -10,8 +10,10 @@ To see an example report, see [here](./ChadRose.pdf).
 
 The files that generate this report are [`server.py`](./flask_proj/server.py), [`index.html`](./flask_proj/templates/index.html), and [`t.py`](./flask_proj/t.py).
 
-`t.py` is the file that creates and generates the PDF, as well as cleaning the data from the uploaded CSV file.
+`t.py` is the file that creates and generates the PDF, as well as cleaning the data from the uploaded CSV file. the file uses several python libraries, including [fpdf](https://pyfpdf.readthedocs.io/en/latest/), [pandas](https://pandas.pydata.org/), and pyparsing. 
 
 `index.html` is the file containing the webpage where the users input their information.
 
 `server.py` is the file that connects `index.html` and `t.py` so that the webpage can run the python script with the information gathered from the webpage. 
+
+
