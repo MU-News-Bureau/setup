@@ -1,11 +1,12 @@
 from re import L
 from fpdf import FPDF
 import pandas as pd
+import yagmail
 from pyparsing import And
 pdf = FPDF()
 
 
-def create_report(file, date, title, url, pdf_title):
+def create_report(file, date, title, url, pdf_title, recipient_email):
 
     # function for displaying american placements in PDF report
     def american_placements():
@@ -103,6 +104,20 @@ def create_report(file, date, title, url, pdf_title):
     spacer()
     pdf.cell(0, 10, f'Totals: {placements} placements, {reach} potential reach, {social_echo} social media impressions')
     pdf.output(f'{pdf_title}.pdf', 'F')
+
+    fname = f'{pdf_title}.pdf'
+    esender = "munewsreports@gmail.com"
+    ereciever = f'{recipient_email}'
+    esubject = f'Your Report: {title} is ready'
+    ebody = '''
+        <p>Please find attached the PDF report file as requested.</p>
+        <b> MU News Bureau </b>
+       '''
+
+    yag = yagmail.SMTP(esender, 'password')
+    yag.send(to=ereciever, subject=esubject, contents=ebody, attachments=fname)
+    print('report was sent')
+
 
 
 # functions to make styling document simpler

@@ -1,1 +1,2 @@
-# setup
+# MU News Bureau Report Generator 
+
