@@ -11,12 +11,12 @@ def create_report(file, date, title, url, pdf_title):
     # function for displaying american placements in PDF report
     def american_placements():
         if "https://" in i["url"]:
-            pdf.set_text_color(r = 0, g = 0, b = 255)
-            pdf.set_font('Times', 'U', 12)
+            blue()
+            times_underline()
             pdf.cell(0, 10, txt = f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach)', link = f'{i["url"]}')
             pdf.cell(0, 10, '', 0, 1)
-            pdf.set_text_color(r = 0, g = 0, b = 0 )
-            pdf.set_font('Times', '', 12)
+            black()
+            times_reg()
         else:
             pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach)', 0, 1 )
 
