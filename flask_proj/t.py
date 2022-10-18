@@ -1,10 +1,22 @@
 from re import L
+import re
 from fpdf import FPDF
 import pandas as pd
 import yagmail
 from pyparsing import And
 pdf = FPDF()
+millnames = ['Million','Billion','Trillion']
 
+def human_readable(n):
+    n = int(n)
+    if n >= 1000000 and n < 1000000000:
+        n = f'{round(n / 1000000, 1)} {millnames[0]}'
+    elif n >= 1000000000 and n < 1000000000000:
+        n = f'{round(n / 1000000000, 1)} {millnames[1]}'
+    elif n >= 1000000000000:
+        n = f'{round(n / 1000000000000, 1)} {millnames[2]}'
+    return n
+    
 
 def create_report(file, date, title, url, pdf_title):
 
@@ -100,7 +112,9 @@ def create_report(file, date, title, url, pdf_title):
             pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach, {i["country"]})', 0, 1 )
 
     # calculate total placements, add space, display totals, output PDF report 
-    placements = len(state_placements) + len(national_placements) + len(international_placements)
+    placements = human_readable(len(state_placements) + len(national_placements) + len(international_placements))
+    reach = human_readable(reach)
+    social_echo = human_readable(social_echo)
     spacer()
     pdf.cell(0, 10, f'Totals: {placements} placements, {reach} potential reach, {social_echo} social media impressions')
     pdf.output(f'{pdf_title}.pdf', 'F')
