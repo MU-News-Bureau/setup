@@ -9,7 +9,9 @@ millnames = ['Million','Billion','Trillion']
 
 def human_readable(n):
     n = int(n)
-    if n >= 1000000 and n < 1000000000:
+    if n >= 1000 and n < 1000000:
+        n = "{:,d}".format(n)
+    elif n >= 1000000 and n < 1000000000:
         n = f'{round(n / 1000000, 1)} {millnames[0]}'
     elif n >= 1000000000 and n < 1000000000000:
         n = f'{round(n / 1000000000, 1)} {millnames[1]}'
@@ -25,7 +27,7 @@ def create_report(file, date, title, url, pdf_title):
         if "https://" in i["url"]:
             blue()
             times_underline()
-            pdf.cell(0, 10, txt = f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach)', link = f'{i["url"]}')
+            pdf.cell(0, 10, txt = f'{str(i["date"])} {i["source"]} ({human_readable(i["reach"])} potential reach)', link = f'{i["url"]}')
             pdf.cell(0, 10, '', 0, 1)
             black()
             times_reg()
@@ -33,8 +35,8 @@ def create_report(file, date, title, url, pdf_title):
             pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach)', 0, 1 )
 
     # load csv file, alter data to make processing + displaying easier 
-    data = pd.read_csv(file)
-    data.loc[:, "Reach"] = data["Reach"].round(-3).map('{:,d}'.format)
+    data = pd.read_csv(file, encoding='latin-1')
+    # data.loc[:, "Reach"] = data["Reach"].round(-3).map('{:,d}'.format)
     data["State"] = data["State"].fillna(-1)
 
     # creating spaces for placement seperation, var to hold total potential reach 
@@ -51,15 +53,15 @@ def create_report(file, date, title, url, pdf_title):
     for i in data['State']: 
         if data['Country'][count] != "United States":
             international_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count],  "url": data["URL"][count], "country": data["Country"][count], "reach": data["Reach"][count]})
-            reach += int(data["Reach"][count].replace(",", ""))
+            reach += data["Reach"][count]
             social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
         if i != "Missouri" and i != -1:
             national_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "state": data["State"][count], "reach": data["Reach"][count]})
-            reach += int(data["Reach"][count].replace(",", ""))
+            reach += data["Reach"][count]
             social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
         if i == "Missouri": 
             state_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "city": data["City"][count], "reach": data["Reach"][count]})
-            reach += int(data["Reach"][count].replace(",", ""))
+            reach += data["Reach"][count]
             social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
 
 
