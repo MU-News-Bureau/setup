@@ -1,5 +1,6 @@
 from re import L
 import re
+import numpy
 from fpdf import FPDF
 import pandas as pd
 import yagmail
@@ -22,7 +23,7 @@ def create_report(file, date, title, url, pdf_title):
             pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach)', 0, 1 )
 
     # load csv file, alter data to make processing + displaying easier 
-    data = pd.read_csv(file, encoding='latin-1')
+    data = pd.read_csv(file, encoding='utf-8')
     # data.loc[:, "Reach"] = data["Reach"].round(-3).map('{:,d}'.format)
     data["State"] = data["State"].fillna(-1)
 
@@ -36,20 +37,47 @@ def create_report(file, date, title, url, pdf_title):
     # loop thru entire data set, seperate into international, national, state placements 
     # add each publications info (date, source, url, country, reach) to seperate buckets for later display
     # add each publications reach to the running total
+
+    for i in data['Twitter Social Echo'].isnull():
+        if i == True:
+            i = 0
+        else: 
+            social_echo += i
+    
+    for i in data['Reddit Social Echo'].isnull():
+        if i == True: 
+            i = 0
+        else: 
+            social_echo += i
+    
+    for i in data['Facebook Social Echo'].isnull():
+        if i == True: 
+            i = 0
+        else: 
+            social_echo += i
+
+    
     count = 0
     for i in data['State']: 
         if data['Country'][count] != "United States":
             international_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count],  "url": data["URL"][count], "country": data["Country"][count], "reach": data["Reach"][count]})
             reach += data["Reach"][count]
-            social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
+
+            # social_echo += int(data["Twitter Social Echo"][count].fillna(0)) + int(data["Facebook Social Echo"][count].fillna(0)) + int(data["Reddit Social Echo"][count].fillna(0))
         if i != "Missouri" and i != -1:
             national_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "state": data["State"][count], "reach": data["Reach"][count]})
             reach += data["Reach"][count]
-            social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
+
+            # social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
+            # social_echo += int(data["Twitter Social Echo"][count].fillna(0)) + int(data["Facebook Social Echo"][count].fillna(0)) + int(data["Reddit Social Echo"][count].fillna(0))
         if i == "Missouri": 
             state_placements.append({"date": data['Alternate Date Format'][count], "source": data["Source"][count], "url": data["URL"][count], "city": data["City"][count], "reach": data["Reach"][count]})
             reach += data["Reach"][count]
-            social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
+            
+           
+            
+            # social_echo += int(data["Twitter Social Echo"][count]) + int(data["Facebook Social Echo"][count]) + int(data["Reddit Social Echo"][count])
+            
 
 
         count += 1
@@ -106,6 +134,7 @@ def create_report(file, date, title, url, pdf_title):
     social_echo = human_readable(social_echo)
     spacer()
     pdf.cell(0, 10, f'Totals: {placements} placements, {reach} potential reach, {social_echo} social media impressions')
+    
     pdf.output(f'{pdf_title}.pdf', 'F')
 
     # fname = f'{pdf_title}.pdf'
