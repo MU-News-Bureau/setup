@@ -20,7 +20,7 @@ def create_report(file, date, title, url, pdf_title):
             black()
             times_reg()
         else:
-            pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach)', 0, 1 )
+            pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({human_readable(i["reach"])} potential reach)', 0, 1 )
 
     # load csv file, alter data to make processing + displaying easier 
     data = pd.read_csv(file, encoding='utf-8')
