@@ -37,24 +37,31 @@ def create_report(file, date, title, url, pdf_title):
     # loop thru entire data set, seperate into international, national, state placements 
     # add each publications info (date, source, url, country, reach) to seperate buckets for later display
     # add each publications reach to the running total
-
+    count = 0
     for i in data['Twitter Social Echo'].isnull():
         if i == True:
             i = 0
         else: 
-            social_echo += i
+            social_echo += data["Twitter Social Echo"][count]
+        count += 1
     
+    count = 0
     for i in data['Reddit Social Echo'].isnull():
         if i == True: 
             i = 0
         else: 
-            social_echo += i
+            social_echo += data["Reddit Social Echo"][count]
+        count += 1
+
+    count = 0
     
     for i in data['Facebook Social Echo'].isnull():
         if i == True: 
             i = 0
         else: 
-            social_echo += i
+            social_echo += data["Facebook Social Echo"][count]
+        
+        count += 1
 
     
     count = 0
@@ -121,12 +128,12 @@ def create_report(file, date, title, url, pdf_title):
         if "https://" in i["url"]:
             pdf.set_text_color(r = 0, g = 0, b = 255)
             pdf.set_font('Times', 'U', 12)
-            pdf.cell(0, 10, txt = f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach, {i["country"]})', link = f'{i["url"]}')
+            pdf.cell(0, 10, txt = f'{str(i["date"])} {i["source"]} ({human_readable(i["reach"])} potential reach, {i["country"]})', link = f'{i["url"]}')
             pdf.cell(0, 10, '', 0, 1)
             pdf.set_text_color(r = 0, g = 0, b = 0 )
             pdf.set_font('Times', '', 12)
         else:
-            pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({i["reach"]} potential reach, {i["country"]})', 0, 1 )
+            pdf.cell(0, 10, f'{str(i["date"])} {i["source"]} ({human_readable(i["reach"])} potential reach, {i["country"]})', 0, 1 )
 
     # calculate total placements, add space, display totals, output PDF report 
     placements = human_readable(len(state_placements) + len(national_placements) + len(international_placements))
